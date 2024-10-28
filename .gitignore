@@ -4,6 +4,9 @@
 # Ignore quarto build data
 /.quarto/
 
+Ignore virtual _environment
+/.venv/
+
 # Ignore Latex generated files
 .bcf
 .log

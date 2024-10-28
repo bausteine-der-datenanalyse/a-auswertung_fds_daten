@@ -44,7 +44,7 @@ BibTeX-Vorlage
 - fdsreader
 
 ## Bearbeitungszeit
-Geschätzte Bearbeitungszeit: 2h
+Geschätzte Bearbeitungszeit: 4h
 
 ## Lernziele
 
