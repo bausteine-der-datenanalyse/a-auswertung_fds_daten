@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>a-auswertung_fds_daten</title>
+<title>Anwendungsbaustein - Auswertung von fds-Daten - 1&nbsp; Einführung in ASET</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -72,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -81,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../skript/introduction.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">introduction.html</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../skript/introduction.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Einführung in ASET</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -96,10 +96,10 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">a-auswertung_fds_daten</a> 
+      <a href="../">Anwendungsbaustein - Auswertung von fds-Daten</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/bausteine-der-datenanalyse/a-auswertung_fds_daten" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-    <a href="../a-auswertung_fds_daten.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <a href="../Anwendungsbaustein---Auswertung-von-fds-Daten.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
 </div>
     </div>
       </div>
@@ -119,7 +119,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../skript/introduction.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">introduction.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Einführung in ASET</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -139,16 +139,57 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Inhaltsverzeichnis</h2>
+   
+  <ul>
+  <li><a href="#datenerfassung" id="toc-datenerfassung" class="nav-link active" data-scroll-target="#datenerfassung"><span class="header-section-number">1.1</span> Datenerfassung</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/bausteine-der-datenanalyse/a-auswertung_fds_daten/blob/main/skript/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>Quellcode anzeigen</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Einführung in ASET</span></h1>
+</div>
 
 
 
-<p>test</p>
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
+</header>
+
+
+<p><strong>ASET</strong> (Available Safe Egress Time) ist ein grundlegendes Konzept im Brandschutzingenieurwesen. Es beschreibt die Zeit, die Personen zur sicheren Evakuierung eines Gebäudes bleibt, bevor die Bedingungen durch Feuer, Rauch oder Hitze lebensgefährlich werden. Die Berechnung von ASET berücksichtigt verschiedene Faktoren wie die Brandwachstumsrate, die Detektionszeit und die baulichen Eigenschaften eines Gebäudes, zum Beispiel Notausgänge und Feuerlöschsysteme. Entscheidend ist, dass die ASET länger ist als die <strong>Erforderliche Sichere Evakuierungszeit</strong> (RSET - Required Safe Egress Time ), damit alle Personen ausreichend Zeit zur Flucht haben. Dieses Verhältnis ist zentral für die Entwicklung wirksamer Evakuierungspläne und erhöht die Sicherheit aller Personen im Gebäude während eines Notfalls.</p>
+<section id="datenerfassung" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="datenerfassung"><span class="header-section-number">1.1</span> Datenerfassung</h2>
+<p>Die Daten, die wir analysieren werden, wurden mit dem <strong>Fire Dynamics Simulator</strong> (FDS) erzeugt. FDS ist ein Simulationsprogramm, das die Ausbreitung von Rauch und Feuer in Innenräumen und Gebäuden modelliert. Durch die Nutzung von Strömungsmechanik-Modellen hilft FDS, das Brandverhalten und seine Auswirkungen auf Gebäude und Umgebungen besser zu verstehen und vorherzusagen.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warnung
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In diesem Abschnitt gehen wir nicht tiefer auf Simulationen und die Arbeit mit FDS ein. Die benötigten Simulationsdaten stehen jedoch zum Download bereit und können direkt genutzt werden.</p>
+</div>
+</div>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -577,4 +618,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/bausteine-der-datenanalyse/a-auswertung_fds_daten/blob/main/skript/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>Quellcode anzeigen</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bausteine-der-datenanalyse/a-auswertung_fds_daten/blob/main/skript/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>Quellcode anzeigen</a></li></ul></div></div></div></footer></body></html>
