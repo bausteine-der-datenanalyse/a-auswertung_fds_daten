@@ -1,31 +1,31 @@
 # Fdsreader
 
-Um Simulationsdaten, die mit FDS berechnet wurden, in Python zu analysieren, 
-hat die Forschungsgruppe von Prof. Lukas Arnold das Python-Modul **fdsreader** 
-entwickelt. Dieses Modul ermöglicht es, die meisten von FDS erzeugten 
-Datenformate einzulesen und in Python-Datenstrukturen zu überführen.
+Um Simulationsdaten, die mit FDS berechnet wurden, mit Python auszuwerten, 
+hat die Arbeitsgruppe von Prof. Lukas Arnold das Python-Modul `fdsreader` entwickelt. 
+Ziel ist es, die meisten von FDS erzeugten Ausgabeformate auszulesen und 
+in Python-Datenstrukturen abzubilden.
 
-Das Modul ist kostenlos und als Open Source verfügbar. Der Quellcode ist auf 
-GitHub zu finden unter: [FireDynamics/fdsreader](https://github.com/FireDynamics/fdsreader). 
-Eine [API-Dokumentation](https://firedynamics.github.io/fdsreader/index.html) 
-steht ebenfalls zur Verfügung.
+Das Modul ist frei verfügbar und Open Source. Der Quellcode ist auf GitHub 
+gehostet: [FireDynamics/fdsreader](https://github.com/FireDynamics/fdsreader), 
+eine [API-Dokumentation](https://firedynamics.github.io/fdsreader/index.html) 
+ist ebenfalls verfügbar.
 
 ## Installation und Import des Pakets
 
-Das fdsreader-Modul kann über pip installiert werden (siehe auch das GitHub-Repository):
+Das `fdsreader`-Modul kann über pip installiert werden (siehe auch das GitHub-Repository):
 
 ```default
 pip install fdsreader
 ```
 
-Um die grundlegende Nutzung des **fdsreader**-Moduls zu erlernen, werden wir 
-uns ein einfaches FDS-Szenario ansehen. Zuerst importieren wir das Modul:
+Zur Einführung in die grundlegende Verwendung von `fdsreader` betrachten wir 
+ein einfaches FDS-Szenario. Zunächst importieren wir das Modul:
 
 ```{python}
 import fdsreader
 ```
 
-Da wir die Daten auch plotten werden, importieren wir zusätzlich `matplotlib`:
+Da wir die Daten auch visualisieren möchten, importieren wir zusätzlich `matplotlib`:
 
 ```{python}
 import matplotlib.pyplot as plt
@@ -33,259 +33,255 @@ import matplotlib.pyplot as plt
 
 ## Auswahl des richtigen Ordners
 
-Als nächstes muss der Reader auf das Verzeichnis verwiesen werden, das die 
-Simulationsdaten enthält, insbesondere die **Smokeview-Datei**.
+Als Nächstes muss der Reader auf das Verzeichnis zeigen, das die Simulationsdaten enthält, 
+insbesondere die Smokeview-Datei:
 
-```python
+```{python}
 # Pfad zu den Daten definieren
 path_to_data = '../skript/01-data/first_example'
 
 sim = fdsreader.Simulation(path_to_data)
 ```
 
-Das `Simulation`-Objekt `sim` enthält nun alle Informationen und Daten zu 
-den Simulationsausgaben:
+Das `Simulation`-Objekt `sim` enthält nun alle Informationen und Daten 
+des Simulationsausgangs:
 
 ```{python}
 sim
 ```
 
-Die Variable `sim` enthält Informationen über das Mesh (`MESH`), vier 
-Schnitte (`SLCF`) und vier Punktmessungen (`DEVC`). Zusätzlich gibt es eine 
-Zeitspalte, die als vierte Messgröße hinzugefügt wurde, obwohl in der 
-FDS-Eingabedatei ursprünglich nur drei Geräte definiert waren.
+Die Variable `sim` enthält Informationen über das Gitter (`MESH`), vier 
+Schnittdaten (`SLCF`) und vier Punktmessungen (`DEVC`). Das zusätzliche 
+Messgerät – in der FDS-Eingabedatei wurden nur drei definiert – ist die Zeitspalte.
 
-## Device Data
+## Messgeräte-Daten
 
 ::: {.callout-tip}
-## Devices in FDS
-Devices act like virtual sensors, allowing one to record data such as 
-temperature, heat flux, gas concentration, velocity, and more, at specific 
-locations within the simulation domain. This data can be crucial for 
-understanding the behavior of fire and smoke under different conditions.
+## Messgeräte in FDS
+Messgeräte fungieren als virtuelle Sensoren, mit denen Daten wie Temperatur, 
+Wärmestrom, Gaskonzentration, Geschwindigkeit usw. an bestimmten Punkten im 
+Simulationsbereich aufgezeichnet werden können. Diese Daten sind entscheidend 
+für das Verständnis des Verhaltens von Feuer und Rauch unter verschiedenen Bedingungen.
 
-A device can get a label (`ID`), which makes it much easier to identify in the 
-comma separated value (CSV) file created during the simulation. It needs a 
-location and a quantity.
+Ein Messgerät kann mit einem Label (`ID`) versehen werden, was die Identifizierung 
+in der durch FDS erzeugten CSV-Datei vereinfacht. Es benötigt eine Position 
+und eine zu messende Größe.
 
-Locations can be provided in different ways, we focus her on a single point 
-using `XYZ`. However, lines, planes and volumes are possible as well.
+Positionen können auf verschiedene Arten angegeben werden. Wir fokussieren uns 
+hier auf einen Punkt über `XYZ`. Linien, Flächen und Volumen sind jedoch ebenso möglich.
 
-The `QUANTITY` parameter expects a string to define what values are to be 
-recorded. As an example, let’s take the gas temperature, using `TEMPERATURE`.
+Der Parameter `QUANTITY` erwartet eine Zeichenkette, die angibt, welche Größe 
+aufgezeichnet werden soll, z. B. `TEMPERATURE` für die Gastemperatur.
 :::
 
-The simplest data set is the output of the DEVC directives. The available data 
-and meta information can be directly printed:
+Die einfachste Datenstruktur ist die Ausgabe der `DEVC`-Direktiven. Die verfügbaren 
+Daten und Metainformationen können direkt ausgegeben werden:
 
 ```{python}
-# short reference for convinience, i.e. `devc` contains all devices
+# Kurzreferenz für Bequemlichkeit – `devc` enthält alle Messgeräte
 devc = sim.devices
 print(devc)
 ```
 
-The Device class contains all relevant information, see 
-[device documentation](https://firedynamics.github.io/fdsreader/devc.html).
+Die `Device`-Klasse enthält alle relevanten Informationen (siehe 
+[Geräte-Dokumentation](https://firedynamics.github.io/fdsreader/devc.html)):
 
 ```{python}
 for i in devc:
-    print(f"ID: {i.id},\t quantity: {i.quantity_name}, \t position: {i.position}")
+    print(f"ID: {i.id},\t Messgröße: {i.quantity_name}, \t Position: {i.position}")
 ```
 
-Individual devices, including the time column, are accessable as dictironary 
-entries using their ID as key. The data of each individual device (Device.data) 
-is stored as a numpy array:
+Einzelne Messgeräte, einschließlich der Zeitspalte, sind über Dictionary-Einträge 
+mit ihrer ID als Schlüssel zugänglich. Die Daten eines einzelnen Messgeräts 
+(`Device.data`) sind als NumPy-Array gespeichert:
 
 ```{python}
 type(devc['Temp_Door_Mid'].data)
 ```
 
-The length matches the expected value, i.e. 1801, as the simulation time was
-and the divices were writen out every second, including the initial time step, 
-here at `t = 0s`.
+Die Länge entspricht dem erwarteten Wert, also 1801, da die Simulation 1800 s 
+dauerte und die Messgeräte jede Sekunde beschrieben wurden, einschließlich `t = 0 s`.
 
 ```{python}
 len(devc['Time'].data)
 ```
 
-A raw look at the data (`Device.data`):
+Ein erster Blick auf die Rohdaten (`Device.data`):
 
 ```{python}
 devc['Temp_Door_Mid'].data
 ```
 
-The device data can be also visualised with matplotlib:
+Die Messgerät-Daten können auch mit Matplotlib visualisiert werden:
 
 ```{python}
-# create the plot
+# Plot erstellen
 plt.plot(devc['Time'].data, devc['Temp_Door_High'].data)
 
-# label the axes
-plt.xlabel("time / s")
+# Achsen beschriften
+plt.xlabel("Zeit / s")
 devc_id = devc['Temp_Door_High'].id
 devc_q = devc['Temp_Door_High'].quantity_name
 devc_u = devc['Temp_Door_High'].unit
 plt.ylabel(f"{devc_q} ({devc_id}) / {devc_u}")
 
-# add a grid
+# Raster hinzufügen
 plt.grid()
 ```
 
-In the same manner a set of devices can be plotted at once. Like all devices with names starting with Temp_:
+In gleicher Weise können mehrere Messgeräte gleichzeitig geplottet werden, z. B. 
+alle, deren Namen mit `Temp_` beginnen:
 
 ```{python}
-# loop over all devices
+# Alle Messgeräte durchlaufen
 for i in devc:
     
-    # consider only devices with an ID that starts with 'Temp_'
+    # Nur Messgeräte mit ID, die mit 'Temp_' beginnt
     if not i.id.startswith('Temp_'): 
         continue
     
     plt.plot(devc["Time"].data, i.data, label=i.id)
     
 plt.legend()
-plt.xlabel("time / s")
-plt.ylabel('temperature / $^\circ$C')
+plt.xlabel("Zeit / s")
+plt.ylabel('Temperatur / $^\circ$C')
 plt.grid()
 ```
 
-## HRR Data
+## HRR-Daten
 
 ::: {.callout-tip}
 ## Heat Release Rate (HRR)
-The crucial parameter in fire modeling, representing the rate at which energy 
-is released by a fire, typically measured in kilowatts (kW) or megawatts (MW).
+Ein zentraler Parameter in der Brandmodellierung. Er beschreibt die 
+Freisetzungsrate thermischer Energie und wird in Kilowatt (kW) oder 
+Megawatt (MW) angegeben.
 :::
 
-In the same fashion as the `DEVC` data, the data written to the `HRR` file can 
-be directly accessed. It is not stored in the `devices` but in the `hrr` element 
-of the `Simulation` object.
+Wie bei den `DEVC`-Daten kann auch auf die im `HRR`-File gespeicherten 
+Daten direkt zugegriffen werden. Diese befinden sich im Attribut `hrr` 
+des `Simulation`-Objekts und nicht bei den Messgeräten:
 
 ```{python}
-plt.plot(sim.hrr['Time'], sim.hrr['HRR'], label='heat release from fire')
+plt.plot(sim.hrr['Time'], sim.hrr['HRR'], label='Freisetzung durch Brand')
 
-plt.plot(sim.hrr['Time'], sim.hrr['Q_RADI'], label='radiative')
-plt.plot(sim.hrr['Time'], sim.hrr['Q_COND'], label='conductive')
-plt.plot(sim.hrr['Time'], sim.hrr['Q_CONV'], label='convective')
+plt.plot(sim.hrr['Time'], sim.hrr['Q_RADI'], label='Strahlung')
+plt.plot(sim.hrr['Time'], sim.hrr['Q_COND'], label='Leitung')
+plt.plot(sim.hrr['Time'], sim.hrr['Q_CONV'], label='Konvektion')
 
 plt.plot(sim.hrr['Time'], 
          sim.hrr['HRR'] + sim.hrr['Q_RADI'] + sim.hrr['Q_COND'] + sim.hrr['Q_CONV'], 
-         color='grey', label='sum', zorder=0)
+         color='grey', label='Summe', zorder=0)
 
-plt.xlabel('time / s')
-plt.ylabel('heat flow rate / kW')
+plt.xlabel('Zeit / s')
+plt.ylabel('Wärmefreisetzung / kW')
 plt.legend()
 plt.grid()
 ```
 
-## Slice Data
+## Slice-Daten
 
 ::: {.callout-tip}
-## Slice data
-Sclices are a type of output that allows you to visualize the distribution of 
-specific quantities (e.g., temperature, velocity, smoke concentration) within a 
-plane of the simulation domain. These slices are essentially cross-sectional 
-views of the data, providing insight into how these quantities vary within a 
-specific area of the simulated environment.
+## Slices
+Slices sind eine Art der Ausgabe, bei der bestimmte physikalische Größen 
+(z. B. Temperatur, Geschwindigkeit, Rauchkonzentration) innerhalb einer Ebene 
+des Simulationsraums visualisiert werden können. Diese Schnitte geben einen 
+Einblick, wie sich Größen über einen Bereich verteilen.
 :::
 
-Data generated by `SLCF` directives span over two or three spatial dimensions 
-plus the time dimension. Besides that, they can be distributed across multiple 
-meshes.
+Die durch `SLCF` erzeugten Daten erstrecken sich über zwei oder drei 
+räumliche Dimensionen sowie über die Zeit. Zusätzlich können sie auf mehrere 
+Meshes verteilt sein.
 
-The data of a slice is stored for each mesh individually. In this simple 
-example, there is only a single mesh, yet for formal consistency it still 
-needs to be referred.
+Die Slice-Daten werden pro Mesh gespeichert. In diesem Beispiel gibt es nur 
+ein Mesh, doch der Zugriff erfolgt trotzdem formell mit Index.
 
-The data structure is as follows:
+Die Datenstruktur sieht wie folgt aus:
 
 ```{python}
 #| eval: false
 #| echo: true
-sim.slices[sliceid][meshid].data[timestep, direction1, direction2]
+sim.slices[sliceid][meshid].data[zeitindex, richtung1, richtung2]
 ```
 
-where `sliceid` is just the index of the slice, `meshid` is the index of the 
-mesh, here in this example 0, and the reference to the data is given by the 
-time step id and then the two spatial indices (for two dimensional slices).
+Dabei ist `sliceid` der Index des Slices, `meshid` der Mesh-Index 
+(hier: 0), und der Zugriff erfolgt über den Zeitindex sowie zwei 
+Raumrichtungen (für 2D-Slices).
 
-In general there are multiple slice objects available:
+Es gibt mehrere Slice-Objekte:
 
 ```{python}
-# print available slice data
+# Verfügbare Slices ausgeben
 for slice in sim.slices:
-    print(f"Slice Type [2D/3D]: {slice.type}\n  Quantity: {slice.quantity.name}\n", 
-          f" Physical Extent: {slice.extent}\n  Orientation [1/2/3]: {slice.orientation}\n")
+    print(f"Slicetyp [2D/3D]: {slice.type}\n  Größe: {slice.quantity.name}\n", 
+          f" Ausdehnung: {slice.extent}\n  Orientierung [1/2/3]: {slice.orientation}\n")
 ```
 
-There are multiple ways to find the right slice in the set of all slices. 
-One way is to filter for a quantity using the `filter_by_quantity` function or 
-choose a slice by its ID.
+Es gibt viele Wege einen bestimmten Slice unter den anderen zu finden. 
+Eine Möglichkeit, den gewünschten Slice zu finden, ist das Filtern 
+nach Quantity über `filter_by_quantity`:
 
 ```{python}
-# get the W-VELOCITY slice(s)
+# Slice(s) mit W-Geschwindigkeit bekommen
 w_slice = sim.slices.filter_by_quantity("W-VELOCITY")
 print(w_slice)
 ```
 
-Another way is to select a slice based on its distance to a given point.
+Oder die Auswahl über die Nähe zu einem Punkt:
 
 ```{python}
-# select slice, by its distance to a given point
+# Auswahl basierend auf der Nähe zu einem Punkt
 slc = w_slice.get_nearest(x=1, z=2)
 print(slc)
 ```
 
-To access the actual slice data, the actual mesh and a point in time needs to 
-be specified. In this example, there is only one mesh, thus the index is 0. The 
-function `get_nearest_timestemp` helps to find the right time index.
+Der Zugriff auf Slice-Daten benötigt die Auswahl von einem bestimmten Mesh und Zeitindex. Die 
+Funktion `get_nearest_timestep` hilft dabei:
 
 ```{python}
-# choose and output the time step, next to t=75 s
+# Zeitindex nahe t=25 s auswählen
 it = slc.get_nearest_timestep(25)
-print(f"Time step: {it}")
-print(f"Simulation time: {slc.times[it]}")
+print(f"Zeitschritt: {it}")
+print(f"Simulationszeit: {slc.times[it]}")
 ```
 
-The following example illustrates the visualisation of the data and steps needed 
-to adjust the representation. The needed adjustments are due to the data 
-orientation expected by the `imshow` function.
+Das folgende Beispiel zeigt eine Darstellung der Daten und die benötigten Schritte um diese anzupassen. Die Anpassungen finden anhand der Datenausrichtung aus der Function `imshow` statt.
 
 ```{python}
-# choose the temperature slice in y-direction
+# Temperaturslice in y-Richtung auswählen
 slc = sim.slices.filter_by_quantity('TEMPERATURE').get_nearest(x=3, y=0)
 print(slc)
-# only one mesh
+# Nur ein Mesh
 slc_data = slc[0].data
 print(slc_data)
 ```
 
 ```{python}
-# Initial visualasation of the data at time t=50 s
+# Erste Visualisierung bei t=50 s
 it = slc.get_nearest_timestep(50)
 plt.imshow(slc_data[it])
 ```
 
 ```{python}
-# Access the transpose data using ndarray.T and set the origin of the output
+# Auf transponierte Darstellung mithilfe von ndarray.T zugreifen und anpassung des Ursprungs
 plt.imshow(slc_data[it].T, origin='lower')
 ```
 
 ```{python}
-# Initial visualasation of the data at time t=50 s
-# Finally, also the extend is specified to move from index to physical space
-# Additionally, the maximal value is set using the vmax argument
+# Erste Visualisierung bei t=50 s
+# Angabe der Ausdehnung um von Indexen in den physikalischen Raum zu wechseln
+# Festsetzen eines Maximalwerts mit Hilfe von vmax
+
 plt.imshow(slc_data[it].T, 
            origin='lower',
            vmax=200,
            extent=slc.extent.as_list())
-plt.colorbar(label='temperature / C', orientation='horizontal')
-plt.xlabel('x coordinate / m')
-plt.ylabel('z coordinate / m')
+plt.colorbar(label='Temperatur / °C', orientation='horizontal')
+plt.xlabel('x-Koordinate / m')
+plt.ylabel('z-Koordinate / m')
 ```
 
 ```{python}
-# Example for a multi plot
+# Beispiel für Mehrfach-Plot
 list_t = [0, 50, 100, 200, 300, 400]
 fig, axs = plt.subplots(2,3, sharex=True, sharey=True)
 for i in range(len(list_t)):
