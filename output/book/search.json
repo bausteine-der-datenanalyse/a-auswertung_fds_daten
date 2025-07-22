@@ -54,17 +54,17 @@
     "href": "skript/introduction.html",
     "title": "1  Einführung in ASET",
     "section": "",
-    "text": "1.1 Datenerfassung\nDie Daten, die wir analysieren werden, wurden mit dem Fire Dynamics Simulator (FDS) erzeugt. FDS ist ein Simulationsprogramm, das die Ausbreitung von Rauch und Feuer in Innenräumen und Gebäuden modelliert. Durch die Nutzung von Strömungsmechanik-Modellen hilft FDS, das Brandverhalten und seine Auswirkungen auf Gebäude und Umgebungen besser zu verstehen und vorherzusagen.",
+    "text": "1.1 Datenerhebung\nDie Daten, die wir hier betrachten, wurden mithilfe des Fire Dynamics Simulator (FDS) erzeugt. Der FDS (Fire Dynamics Simulator) ist ein Modell der numerischen Strömungsmechanik, das zur Simulation von feuergetriebenen Strömungen verwendet wird. Es ermöglicht die Analyse und Vorhersage des Brandverhaltens sowie dessen Auswirkungen auf Gebäude und Umgebungen.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Einführung in ASET</span>"
     ]
   },
   {
-    "objectID": "skript/introduction.html#datenerfassung",
-    "href": "skript/introduction.html#datenerfassung",
+    "objectID": "skript/introduction.html#datenerhebung",
+    "href": "skript/introduction.html#datenerhebung",
     "title": "1  Einführung in ASET",
     "section": "",
-    "text": "Warnung\n\n\n\nIn diesem Abschnitt gehen wir nicht tiefer auf Simulationen und die Arbeit mit FDS ein. Die benötigten Simulationsdaten stehen jedoch zum Download bereit und können direkt genutzt werden.",
+    "text": "Warnung\n\n\n\nDieses Lernmodul geht nicht weiter auf Simulationen oder den FDS ein. Die hier verwendeten Simulationsdaten werden als Download bereitgestellt.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Einführung in ASET</span>"
     ]
